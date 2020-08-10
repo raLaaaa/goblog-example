@@ -324,3 +324,4 @@ In this example I open it before each access and close it after each access.
 I can just recommend to take a look at the official Revel [hotel booking](https://github.com/revel/examples/tree/master/booking) example it definitely is cleaner implementation wise as this example and covers more.
 If you are not familiar with Go and Revel I recommened checking out the [official manual](https://revel.github.io/manual/index.html).
 
+Also if you have improvements in whichevery ways feel free to open a pull request or to open an issue.
