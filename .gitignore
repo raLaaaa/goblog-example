@@ -3,7 +3,7 @@ target/
 none
 tmp/
 routes/
-test-results/
+test-results/3
 revel/revel
 
 # editor

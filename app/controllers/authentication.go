@@ -14,6 +14,7 @@ type Authentication struct {
 	*revel.Controller
 }
 
+// Renders the login page but only if we are not logged in
 func (c Authentication) Login() revel.Result {
 	if user := c.connected(); user != nil {
 		return c.Redirect(routes.App.PostEntry())
@@ -21,6 +22,7 @@ func (c Authentication) Login() revel.Result {
 	return c.Render()
 }
 
+// Receives the POST request with the login information and checks whether they are valid
 func (c Authentication) ReceiveLogin(username, password string) revel.Result {
 	user := c.getUser(username)
 	if user != nil {
@@ -38,13 +40,15 @@ func (c Authentication) ReceiveLogin(username, password string) revel.Result {
 	return c.Redirect(routes.Authentication.Login())
 }
 
-func (c Authentication) AddUser() revel.Result {
+// Adds the user to the session
+func (c Authentication) addUser() revel.Result {
 	if user := c.connected(); user != nil {
 		c.ViewArgs["user"] = user
 	}
 	return nil
 }
 
+// Checks whether the user is logged it
 func (c Authentication) connected() *models.User {
 	if c.ViewArgs["user"] != nil {
 		return c.ViewArgs["user"].(*models.User)
@@ -56,6 +60,7 @@ func (c Authentication) connected() *models.User {
 	return nil
 }
 
+// Retrieves the user object and stores it inside the session
 func (c Authentication) getUser(username string) (user *models.User) {
 	user = &models.User{}
 	_, err := c.Session.GetInto("fulluser", user, false)
@@ -73,7 +78,9 @@ func (c Authentication) getUser(username string) (user *models.User) {
 	return
 }
 
+// Receives the GET request and logs the user out
 func (c Authentication) Logout() revel.Result {
+	// Deletes the session
 	for k := range c.Session {
 		delete(c.Session, k)
 	}
