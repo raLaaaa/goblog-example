@@ -1,0 +1,70 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<div class="row">
+  <div class="leftcolumn">
+    {{range $i, $entry := .entries}}
+    <div class="card">
+      <h2> {{$entry.Name}} </h2>
+      <h5> {{$entry.CreatedAt.Format "2006 Jan 02"}} </h5>
+      <hr>
+      <p> {{$entry.Description}} </p>
+    </div>
+    {{end}}
+  </div>
+</div>
+
+
+
+{{template "footer.html" .}}
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Add a gray background color with some padding */
+  body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f1f1f1;
+  }
+  
+  /* Header/Blog Title */
+  .header {
+    padding: 30px;
+    font-size: 40px;
+    text-align: center;
+    background: white;
+  }
+  
+  /* Create two unequal columns that floats next to each other */
+  /* Left column */
+  .leftcolumn {   
+    float: center;
+    width: 100%;
+    overflow-wrap: break-word;
+  }
+    
+  /* Add a card effect for articles */
+  .card {
+     background-color: white;
+     padding: 20px;
+     margin-top: 20px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+    
+  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {   
+      width: 100%;
+      padding: 0;
+    }
+  }
+  </style>

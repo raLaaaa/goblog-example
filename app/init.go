@@ -1,6 +1,8 @@
 package app
 
 import (
+	"rala-blog/app/services"
+
 	"github.com/revel/revel"
 )
 
@@ -29,6 +31,11 @@ func init() {
 		revel.BeforeAfterFilter,       // Call the before and after filter functions
 		revel.ActionInvoker,           // Invoke the action.
 	}
+
+	services.CreateBaseUser()
+
+	// Open the my.db data file in your current directory.
+	// It will be created if it doesn't exist.
 
 	// Register startup functions with OnAppStart
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
