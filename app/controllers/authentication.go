@@ -26,8 +26,10 @@ func (c Authentication) Login() revel.Result {
 func (c Authentication) ReceiveLogin(username, password string) revel.Result {
 	user := c.getUser(username)
 	if user != nil {
+		//Compares the entered and the hased stored password
 		err := bcrypt.CompareHashAndPassword(user.HashedPassword, []byte(password))
 		if err == nil {
+			//Login succesful
 			c.Session["user"] = username
 			c.Session.SetNoExpiration()
 			c.Flash.Success("Welcome, " + username)
