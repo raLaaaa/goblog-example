@@ -1,12 +1,12 @@
 # Go-Blog
 
-A simple Go-Blog project realized with Revel.
-It uses bbolt as persistence and storm as ORM for the database.
+A simple Go-Blog project realized with [Revel](https://github.com/revel/revel).
+It uses [bbolt](https://github.com/etcd-io/bbolt) as persistence and [storm](https://github.com/asdine/storm) as ORM for the database.
 
 This example aims at providing a simple application core example for beginners with Go and Revel.
 There are a lot of things you could do better, smarter and more elegant how ever the application tries to give a brief overview with a small codebase about certain ways on how to implement a login, persistence, input-validation, serversiderendering and a simple API with stated frameworks / libraries.
 
-It is based on the Revel booking example and tries to simplify that a little bit.
+It is based on the Revel [booking](https://github.com/revel/examples/tree/master/booking) example and tries to simplify that a little bit.
 **The explanation below might contain errors or wrong information. I'm still a beginner with Revel and Go.** 
 
 Note that the HTML is kept very basic since this project aims not at getting used productive in anyway.
@@ -321,6 +321,6 @@ In this example I open it before each access and close it after each access.
 
 ## Conclusion
 
-I can just recommend to take a look at the official Revel hotel booking example it definitely is cleaner implementation wise as this example and covers more.
-If you are not familiar with Go and Revel I recommened checking out the official manual.
+I can just recommend to take a look at the official Revel [hotel booking](https://github.com/revel/examples/tree/master/booking) example it definitely is cleaner implementation wise as this example and covers more.
+If you are not familiar with Go and Revel I recommened checking out the [official manual](https://revel.github.io/manual/index.html).
 
