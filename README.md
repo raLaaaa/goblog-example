@@ -300,7 +300,7 @@ The session will get deleted and you get redirected to our `Home.Index()` and ar
 
 ### Databaseservice
 
-The `databaseservice` is super simple and basically is just a wrapper for the functions provided by storm.
+The `databaseservice` is super simple and basically just a wrapper for the functions provided by storm.
 We have:
 
 - SaveToDatabase(entry models.BlogEntry)
