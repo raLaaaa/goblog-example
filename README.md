@@ -1,15 +1,15 @@
 # Go-Blog
 
 A simple Go-Blog project realized with [Revel](https://github.com/revel/revel).
-It uses [bbolt](https://github.com/etcd-io/bbolt) as persistence and [storm](https://github.com/asdine/storm) as ORM for the database.
+It uses [bbolt](https://github.com/etcd-io/bbolt) as persistence and [storm](https://github.com/asdine/storm) as ORM for `storm`.
 
-This example aims at providing a simple application core example for beginners with Go and Revel. You could think of it as a brief tutorial.
-There are a lot of things you could do better, smarter and more elegant how ever the application tries to give a brief overview with a small codebase about certain ways on how to implement a login, persistence, input-validation, serversiderendering and a simple API with stated frameworks / libraries.
+This example aims at providing a simple application core for beginners with Go and Revel. You could think of it as a brief tutorial.
+There are a lot of things you could do better, smarter and more elegant how ever the application tries to give a brief overview with a small codebase about certain ways on how to implement a login, persistence, input-validation, serversiderendering and a simple API with the above mentioned frameworks / libraries.
 
 It is based on the Revel [booking](https://github.com/revel/examples/tree/master/booking) example and tries to simplify that a little bit.
 **The explanation below might contain errors or wrong information. I'm still a beginner with Revel and Go.** 
 
-Note that the HTML is kept very basic since this project aims not at getting used productive in anyway.
+Note that the HTML and CSS is kept very basic since this project aims not at getting used productive in anyway.
 
 ## How to start
 
@@ -22,9 +22,9 @@ The application is then available at `localhost:9000`
 
 The app consists of three main components:
 
-- The authentication Controller
+- The Authentication Controller
 - The "App" which is responsible for creating entries for our blog
-- The "Home" view which is the default view und lists our blog entries
+- The "Home" view which is the default view and lists our blog entries
 
 Additionally the app has a database service which is responsible for saving and reading from out `bbolt database` with `storm`.
 
@@ -114,7 +114,7 @@ We have a `PostEntry` in our routes which looks like the following:
 `POST    /PostEntry                              App.ReceiveEntry`
 
 So when submitting our form our App-Controller function ReceiveEntry will receive the POST request.
-Note: This is probably not the best way to do it. I think it would be better to not include the route and directly define the receiver inside the HTML template.
+Note: This is probably not the best way to do it. I think it would be better to not include the route and define the receiver directly inside the HTML template.
 For clarification reasons though I defined the POST route in my routes and do it this way. It is not very maintainable and handy though.
 
 ```go
@@ -140,13 +140,14 @@ func (c App) ReceiveEntry(name string, description string) revel.Result {
 	return c.Redirect(App.PostEntry)
 }
 ```
+
 This is the method which gets fired by submitting our form. 
 It receives the named fields of our form as parameters and then checks whether they are valid.
-If they are invalid it uses Revels built in flash functionality to display an error and to redirect the user again to the `PostEntry` route to fill in a validated input.
+If they are invalid it uses Revels built in flash functionality to display an error and to redirect the user again to the `PostEntry` route to fill in a valid input.
 In case the input is valid it creates an entry based on the model in `app/models`. Additionally it sets the created time to now (thats the field we are formatting in HTML template before).
-Afterwards it saves the created entry with our databaseservice into our bbolt-database and redirects the user to our `PostEntry` route where he can create  another entry.
+Afterwards it saves the created entry with our databaseservice into our bbolt-database and redirects the user to our `PostEntry` route where he can create another entry.
 
-The last method in our App controller is the following and is related to our login:
+The last method in our App controller is the following and is related to the authentication:
 
 ```go
 func (c App) checkUser() revel.Result {
@@ -158,7 +159,7 @@ func (c App) checkUser() revel.Result {
 }
 ```
 
-It basically checks before each call in our App controller whether the user is logged and in case the user is not it redirects him to the login page.
+It basically checks before each call in our App controller whether the user is logged in and in case the user is not it redirects him to the login page.
 This method is one of two methods called by our interceptors defined in `controllers/init.go`:
 
 ```go
@@ -167,10 +168,11 @@ func init() {
 	revel.InterceptMethod(App.checkUser, revel.BEFORE)
 }
 ```
-What is important to understand that `InterceptMethod(..)` is scoped to the controller. That means `checkUser()` is only called before requests to our App controller.
-That means it is not called when accessing our `Home.Index` which leads to the fact that you can see the blog even when you are not logged in. How ever you can not access `App.PostEntry` without be logged in otherwise `checkUser()` will redirect you to the login page.
 
-`Authentication.addUser` is therefore only called when accessing the Authentication controller.
+What is important to understand is that `InterceptMethod(..)` is scoped to the controller. That means `checkUser()` is only called before requests to our App controller.
+That means it is not called when accessing our `Home.Index` which leads to the fact that you can see the blog even when you are not logged in. How ever you can not access `App.PostEntry` without be logged in otherwise `checkUser()` will redirect you to the login page. If you want to read more about interceptors you can do it [here](https://revel.github.io/manual/interceptors.html).
+
+`Authentication.addUser` is therefore only called when interacting with the Authentication controller.
 
 ### Authentication Controller
 
@@ -186,7 +188,7 @@ func (c Authentication) Login() revel.Result {
 }
 ```
 
-In case the user is connected or logged in the app will redirect the user to our `PostEntry` section.
+In case the user is logged in the app will redirect the user to our `PostEntry` section.
 Otherwise it renders the loginform as usual.
 
 When entering username and password in our form (similiar to our `PostEntry` form) the following method gets called:
@@ -197,7 +199,6 @@ func (c Authentication) ReceiveLogin(username, password string) revel.Result {
 	if user != nil {
 		err := bcrypt.CompareHashAndPassword(user.HashedPassword, []byte(password))
 		if err == nil {
-			//Login succesful
 			c.Session["user"] = username
 			c.Session.SetNoExpiration()
 			c.Flash.Success("Welcome, " + username)
@@ -237,7 +238,7 @@ Our database service `GetSingleUserByName(username)` fetches the user from our d
 In case it can't find the user it will fire an error. If it does it stores the user into our session and returns.
 
 Now that we have a session and a user object the `ReceiveLogin` function calls `bcrypt.CompareHashAndPassword(user.HashedPassword, []byte(password))`.
-Since we only store hased password we need to compare a hashed password with our entered password. Bcrypt does that for us. 
+Since we only store hashed password we need to compare a hashed password with our entered password. Bcrypt does that for us. 
 If the method does not return an error the entered password parameter and the hashed password stored in our database are equal.
 Therefore the login was successful.
 
@@ -250,7 +251,7 @@ c.Flash.Success("Welcome, " + username)
 return c.Redirect(routes.App.PostEntry())
 ```
 
-For testing purposes we set our session expiration to none and store the under the key `user` the `username` into our session.
+For testing purposes we set our session expiration to none and store under the `username` under the key `user` into our session.
 Afterwards we flash a successful login message and redirect to the `PostEntry` section.
 
 The three methods we did not cover yet in our Authentication controller are:
@@ -268,7 +269,7 @@ func (c Authentication) connected() *models.User {
 }
 ```
 This function basically checks whether we are logged in or not. 
-If we are not it returns `nil` otherwise it returned our `*user` object.
+If we are not it returns `nil` otherwise it returns our `*user` object.
 
 ```go
 func (c Authentication) addUser() revel.Result {
@@ -278,7 +279,7 @@ func (c Authentication) addUser() revel.Result {
 	return nil
 }
 ```
-addUser is the function we call in our interceptor and it gets called before every request to our Authentication controller.
+addUser is the function we call in our interceptor. As mentioned it gets called before every request to our Authentication controller.
 It calls `connected()` and checks whether our session is valid. So we do not have to log in over and over again. 
 
 The last function we are missing is the `Logout()` function.
@@ -300,7 +301,7 @@ The session will get deleted and you get redirected to our `Home.Index()` and ar
 
 ### Databaseservice
 
-The `databaseservice` is super simple and basically just a wrapper for the functions provided by storm.
+The `databaseservice` is super simple and is basically just a wrapper for the functions provided by `storm`.
 We have:
 
 - SaveToDatabase(entry models.BlogEntry)
@@ -316,12 +317,13 @@ We have:
    - Fetches all blog entries of our database
    - (Used when rendering the blog entries and injecting them into our template)
 
-Important is that you open and close the database connection with storm conscientious.
-In this example I open it before each access and close it after each access.
+Important is that you open and close the database connection with `storm` conscientious.
+In this example I open it before and close it after each access.
 
 ## Conclusion
 
-I can just recommend to take a look at the official Revel [hotel booking](https://github.com/revel/examples/tree/master/booking) example it definitely is cleaner implementation wise as this example and covers more.
+I can recommend to take a look at the official Revel [hotel booking](https://github.com/revel/examples/tree/master/booking) example. It definitely is cleaner implementation wise as this example and covers more functions.
+
 If you are not familiar with Go and Revel I recommened checking out the [official manual](https://revel.github.io/manual/index.html).
 
-Also if you have improvements in whichevery ways feel free to open a pull request or to open an issue.
+Also if you have improvements in whichever ways feel free to open a pull request or to open an issue.
