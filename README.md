@@ -1,7 +1,7 @@
 # Go-Blog
 
 A simple Go-Blog project realized with [Revel](https://github.com/revel/revel).
-It uses [bbolt](https://github.com/etcd-io/bbolt) as persistence and [storm](https://github.com/asdine/storm) as ORM for `storm`.
+It uses [bbolt](https://github.com/etcd-io/bbolt) as persistence and [storm](https://github.com/asdine/storm) as ORM.
 
 This example aims at providing a simple application core for beginners with Go and Revel. You could think of it as a brief tutorial.
 There are a lot of things you could do better, smarter and more elegant how ever the application tries to give a brief overview with a small codebase about certain ways on how to implement a login, persistence, input-validation, serversiderendering and a simple API with the above mentioned frameworks / libraries.
