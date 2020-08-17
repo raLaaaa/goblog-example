@@ -308,7 +308,7 @@ We have:
    - Saves a model to the database
    - (Used when creating a blog entry)
 - CreateBaseUser()
-   - Gets called in revel.init() so that we a user to login (`init.go`)
+   - Gets called in revel.init() so that we have a user to log in (see `init.go`)
    - Username: rala Password: 123
 - GetSingleUserByName(name string)
    - Fetches a single user out of our database by name
