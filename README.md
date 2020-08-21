@@ -1,4 +1,4 @@
-# Go-Blog
+# GoBlog-Example
 
 A simple Go-Blog project realized with [Revel](https://github.com/revel/revel).
 It uses [bbolt](https://github.com/etcd-io/bbolt) as persistence and [storm](https://github.com/asdine/storm) as ORM.
