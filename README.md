@@ -7,7 +7,7 @@ This example aims at providing a simple application core for beginners with Go a
 There are a lot of things you could do better, smarter and more elegant how ever the application tries to give a brief overview with a small codebase about certain ways on how to implement a login, persistence, input-validation, serversiderendering and a simple API with the above mentioned frameworks / libraries.
 
 It is based on the Revel [booking](https://github.com/revel/examples/tree/master/booking) example and tries to simplify that a little bit.
-**The explanation below might contain errors or wrong information. I'm still a beginner with Revel and Go.** 
+**The explanation below might contain errors or wrong information. I'm still a beginner with Revel.** 
 
 Note that the HTML and CSS is kept very basic since this project aims not at getting used productive in anyway.
 
